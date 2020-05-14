@@ -15,45 +15,17 @@ import br.edu.fjn.library.model.Phone;
 import br.edu.fjn.library.model.PhoneType;
 
 public final class App {
-    private App() {
-    }
+
+    static BookDAO bookDAO = new BookDAO();
+    static CustomerDAO customerDAO = new CustomerDAO();
 
     public static void main(String[] args) {
-        BookDAO bookDAO = new BookDAO();
-        CustomerDAO customerDAO = new CustomerDAO();
+        
+        customerDAO.factory.close();
+        bookDAO.factory.close();
+    }
 
-        // Customer c = new Customer();
-        // c.setName("Ana Silva");
-        // c.setCpf("321.123.345-10");
-        // c.setEmail("ana@gmail.com");
-        // c.setAddress(new Address(null, "R. Santos Doumond", "133"));
-
-        // Phone p1 = new Phone();
-        // p1.setNumber("35110987");
-        // p1.setType(PhoneType.LANDLINE);
-
-        // Phone p2 = new Phone();
-        // p2.setNumber("999088123");
-        // p2.setType(PhoneType.CELLPHONE);
-
-        // List<Phone> phones = new ArrayList<>();
-        // phones.add(p1);
-        // phones.add(p2);
-
-        // c.setPhones(phones);
-
-        // customerDAO.save(c);
-
-        // Customer c = customerDAO.findById(1);
-        // System.out.println("Cliente: " + c.getName());
-        // System.out.println("Endereço: " + c.getAddress());
-        // c.setAddress(new Address(2, "R. Sao Pedro", "15"));
-        // customerDAO.update(c);
-
-        // c = customerDAO.findById(1);
-        // System.out.println("Cliente: " + c.getName());
-        // System.out.println("Endereço: " + c.getAddress().getStreet());
-
+    static void findCustomerById() {
         Customer c = customerDAO.findById(1);
         System.out.println("Cod. Cliente: " + c.getCode());
         System.out.println("Cliente: " + c.getName());
@@ -63,8 +35,38 @@ public final class App {
             System.out.println(" - Telefone: " + p.getNumber());
             System.out.println(" - Tipo Telefone: " + p.getType());
         });
-
-        customerDAO.factory.close();
-        bookDAO.factory.close();
     }
+
+    static void updateCustomer() {
+        Customer c = customerDAO.findById(1);
+        System.out.println("Cliente: " + c.getName());
+        System.out.println("Endereço: " + c.getAddress());
+        c.setAddress(new Address(2, "R. Sao Pedro", "15"));
+        customerDAO.update(c);
+    }
+
+    static void saveCompleteCustomer() {
+        Customer c = new Customer();
+        c.setName("Ana Silva");
+        c.setCpf("321.123.345-10");
+        c.setEmail("ana@gmail.com");
+        c.setAddress(new Address(null, "R. Santos Doumond", "133"));
+
+        Phone p1 = new Phone();
+        p1.setNumber("35110987");
+        p1.setType(PhoneType.LANDLINE);
+
+        Phone p2 = new Phone();
+        p2.setNumber("999088123");
+        p2.setType(PhoneType.CELLPHONE);
+
+        List<Phone> phones = new ArrayList<>();
+        phones.add(p1);
+        phones.add(p2);
+
+        c.setPhones(phones);
+
+        customerDAO.save(c);
+    }
+
 }
